@@ -50,11 +50,13 @@ public class ShippingOrderController {
         if (productDto.getInventoryCount() < shippingOrderDto.getQuantity()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "We dont have enough stock");
         }
-
+        productDto.setProductId(shippingOrderDto.getProductId());
         productDto.setInventoryCount(productDto.getInventoryCount()-shippingOrderDto.getQuantity());
-        url = discoveryClient.getInstances("product-service").get(0).getUri().toString() + "/product";
+
+
+        url = discoveryClient.getInstances("product-service").get(0).getUri().toString() + "/product-update/"+shippingOrderDto.getProductId();
         HttpEntity<ProductDto> httpEntity = new HttpEntity<>(productDto, headers);
-        restTemplate.postForObject(url, httpEntity, ProductDto.class);
+        restTemplate.put(url, httpEntity, ProductDto.class);
 
         ShippingOrder shippingOrder = new ShippingOrder();
         shippingOrder.setProductId(shippingOrderDto.getProductId());

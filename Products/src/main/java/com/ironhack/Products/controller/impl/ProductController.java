@@ -42,4 +42,16 @@ public class ProductController implements IProductController {
 
         return productRepository.save(product);
     }
+
+    @PutMapping("/product-update/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product updateProduct(@PathVariable("id") Integer id, @RequestBody @Valid ProductDto productDto) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()){
+            product.get().setInventoryCount(productDto.getInventoryCount());
+            return productRepository.save(product.get());
+        } else {
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "The product you are looking for doesn't exists");
+        }
+    }
 }

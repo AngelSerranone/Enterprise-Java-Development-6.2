@@ -9,6 +9,8 @@ public class ProductDto {
 
     /** Properties **/
 
+    private Integer productId;
+
     @NotNull
     @NotEmpty
     private String productName;
@@ -50,5 +52,13 @@ public class ProductDto {
 
     public void setInventoryCount(Integer inventoryCount) {
         this.inventoryCount = inventoryCount;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 }
